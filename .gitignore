@@ -19,3 +19,6 @@ service/
 #src/pages/user/
 .fusebox/
 npm-debug.log.1077739417
+hooks/
+platforms/
+plugins/

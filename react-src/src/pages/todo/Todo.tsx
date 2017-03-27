@@ -47,9 +47,11 @@ export class Todos extends React.Component<any, any> {
             todoStore.addTodo(initTodo(e.target.value));
         }
     }
+    changeAllCompletedStatus(e){
+        todoStore.changeAllCompletedStatus(!e.target.checked);     
+    }
     render(){
         let list = [];
-        console.log(todoStore.getShowTodos);
         todoStore.getShowTodos.forEach(function (todo, i) {
             list.push(<TodoItem todoBean={todo} keyId={i} />)
         })
@@ -59,13 +61,14 @@ export class Todos extends React.Component<any, any> {
                         <input className="new-todo" placeholder="What needs to be done?" value="" onKeyUp={(e)=>{if(e.keyCode === 13){this.addTodo(e)}}}/>
                     </header>
                     <section className="main">
-                        <input className="toggle-all" type="checkbox"/>
+                        {todoStore.todoBeanList.size > 0?<input className="toggle-all" type="checkbox" onClick={(e)=>{this.changeAllCompletedStatus(e)}} checked={todoStore.getIsAllComplete}/>:null}
                         <ul className="todo-list">
                             <QueueAnim component="ul" type={['right', 'left']} leaveReverse>
                                 {list}
                             </QueueAnim>
-                        </ul>   
+                        </ul>
                     </section>
+                    {todoStore.todoBeanList.size > 0?
                     <footer className="footer">
                         <span className="todo-count">
                             <strong> {todoStore.getUnfinishedTodoCount} </strong> <span> </span> <span> items </span> <span> left </span>
@@ -81,10 +84,11 @@ export class Todos extends React.Component<any, any> {
                                     className={todoStore.showType === Store.ShowType.finished?"selected":null} 
                                     onClick={todoStore.showType !== Store.ShowType.finished?()=>{todoStore.changeShowType(Store.ShowType.finished)}:null}> Completed </a> </li>
                         </ul>
-                        <button className="clear-completed" onClick={()=>{todoStore.cleanFinished}}>
+                        <button className="clear-completed" onClick={()=>{todoStore.cleanFinished()}}>
                             Clear completed
                         </button>
-                    </footer>
+                    </footer>:null
+                    }
             </div>;
     }
 }

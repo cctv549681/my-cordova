@@ -11,7 +11,7 @@ export enum ShowType {
     unfinished
 }
 export class TodoStore {
-    @observable todoBeanList:Map<string,TodoBean> = new Map();
+    @observable todoBeanList:any = observable.map({});
     @observable showType:ShowType = ShowType.all;
 
     @action changeShowType = (type:ShowType) =>{
@@ -37,14 +37,21 @@ export class TodoStore {
             throw error;
         }  
     }
-    @action cleanFinished = (keyId:string) =>{
+    @action changeAllCompletedStatus= (targetChecked:boolean) =>{
+        console.log(targetChecked);
+        this.todoBeanList.forEach((todo,index) => {
+            if(todo.completed === targetChecked){
+                this.changeCompletedStatus(index);
+            }
+        });
+    }
+    @action cleanFinished = () =>{
         this.todoBeanList.forEach((todo,index) => {
             if(todo.completed){
                 this.todoBeanList.delete(index);
             }
         });
     }
-    
     @computed get getUnfinishedTodoCount(){
         let unfinishedCount = 0;
         this.todoBeanList.forEach((todo,i) => {
@@ -52,6 +59,17 @@ export class TodoStore {
         });
         return unfinishedCount;
     }
+    @computed get getFinishedTodoCount(){
+        let finishedCount = 0;
+        this.todoBeanList.forEach((todo,i) => {
+            todo.completed?finishedCount++ :null;
+        });
+        return finishedCount;
+    }
+    @computed get getIsAllComplete(){
+        return this.getFinishedTodoCount === this.todoBeanList.size;
+    }
+    
     @computed get getShowTodos(){
         let me = this;
         if(me.showType === ShowType.all){
