@@ -1,0 +1,41 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "jsx": "react",
+        "outDir": "build",
+        "alwaysStrict": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "removeComments": true,
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "importHelpers": false,
+        "lib": [
+            "dom",
+            "es2015.promise",
+            "es5",
+            "es6",
+            "es2015.symbol"
+        ]
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "build",
+        "test",
+        "externals",
+        "Temporary"
+    ],
+    "awesomeTypescriptLoaderOptions": {
+        "useBabel": true,
+        "babelOptions": {
+            "presets": [
+                "env"
+            ]
+        },
+        "useCache": true
+    }
+}
